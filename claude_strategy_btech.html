@@ -1,0 +1,193 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); }
+  .wrap { padding: 1.5rem 0; max-width: 680px; }
+  .hero { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 16px; border: 0.5px solid var(--color-border-tertiary); }
+  .avatar { width: 52px; height: 52px; border-radius: 50%; background: #EEEDFE; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .avatar i { font-size: 26px; color: #3C3489; }
+  .hero-text h2 { font-size: 18px; font-weight: 500; color: var(--color-text-primary); }
+  .hero-text p { font-size: 13px; color: var(--color-text-secondary); margin-top: 3px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+  .tag-purple { background: #EEEDFE; color: #3C3489; }
+  .tag-teal { background: #E1F5EE; color: #085041; }
+  .tag-amber { background: #FAEEDA; color: #633806; }
+  .tag-coral { background: #FAECE7; color: #712B13; }
+  .section-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; margin-top: 1.5rem; }
+  .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 10px; }
+  .card-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .card-title i { font-size: 18px; color: #534AB7; }
+  .card p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .routine-grid { display: grid; grid-template-columns: 80px 1fr; gap: 0; }
+  .time-label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); padding: 8px 0; border-right: 2px solid #EEEDFE; padding-right: 12px; }
+  .time-item { font-size: 13px; color: var(--color-text-primary); padding: 8px 0 8px 14px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .time-label { border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .prompt-box { background: var(--color-background-secondary); border-left: 3px solid #534AB7; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 10px 14px; margin-bottom: 8px; font-size: 13px; color: var(--color-text-primary); font-family: var(--font-mono); line-height: 1.5; }
+  .week-row { display: flex; gap: 10px; margin-bottom: 8px; align-items: flex-start; }
+  .week-badge { background: #EEEDFE; color: #3C3489; font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 4px; white-space: nowrap; margin-top: 1px; }
+  .week-text { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+  .day-card { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 14px; margin-bottom: 8px; display: flex; gap: 12px; align-items: center; }
+  .day-num { font-size: 22px; font-weight: 500; color: #AFA9EC; min-width: 36px; }
+  .day-content { flex: 1; }
+  .day-content strong { font-size: 14px; font-weight: 500; color: var(--color-text-primary); display: block; }
+  .day-content span { font-size: 12px; color: var(--color-text-secondary); }
+  .opp-card { background: #EEEDFE; border-radius: var(--border-radius-lg); padding: 1.25rem 1.5rem; border: 0.5px solid #AFA9EC; }
+  .opp-card h3 { font-size: 16px; font-weight: 500; color: #26215C; margin-bottom: 6px; }
+  .opp-card p { font-size: 13px; color: #3C3489; line-height: 1.6; }
+  .action-row { display: flex; gap: 10px; margin-bottom: 8px; align-items: center; }
+  .action-num { width: 28px; height: 28px; border-radius: 50%; background: #534AB7; color: #fff; font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .action-text { font-size: 13px; color: var(--color-text-primary); }
+  .mistake { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; }
+  .mistake i { color: #D85A30; font-size: 16px; margin-top: 2px; }
+  .mistake span { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; }
+  .tab-btn { font-size: 12px; padding: 5px 14px; border: 0.5px solid var(--color-border-secondary); border-radius: 20px; cursor: pointer; background: transparent; color: var(--color-text-secondary); transition: all 0.15s; }
+  .tab-btn.active { background: #534AB7; color: #fff; border-color: #534AB7; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1rem; }
+  .metric { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.75rem 1rem; text-align: center; }
+  .metric-val { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+  .metric-label { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+  .send-btn { background: transparent; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 7px 14px; font-size: 12px; cursor: pointer; color: var(--color-text-secondary); margin-top: 10px; transition: background 0.15s; }
+  .send-btn:hover { background: var(--color-background-secondary); }
+</style>
+
+<div class="wrap">
+  <h2 class="sr-only">Personalized Claude Usage Strategy for B.Tech Student</h2>
+
+  <div class="hero">
+    <div class="avatar"><i class="ti ti-school" aria-hidden="true"></i></div>
+    <div class="hero-text">
+      <h2>Your Claude Strategy — B.Tech Student</h2>
+      <p>2–3 hrs/day · Java · AI · GitHub · Internship-focused</p>
+      <div class="tags">
+        <span class="tag tag-purple">Coding</span>
+        <span class="tag tag-teal">AI/ML</span>
+        <span class="tag tag-amber">Career Growth</span>
+        <span class="tag tag-coral">GitHub</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="metric-row">
+    <div class="metric"><div class="metric-val">2–3h</div><div class="metric-label">Daily learning time</div></div>
+    <div class="metric"><div class="metric-val">30</div><div class="metric-label">Day action plan</div></div>
+    <div class="metric"><div class="metric-val">6mo</div><div class="metric-label">To internship-ready</div></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('workflow')">Workflow</button>
+    <button class="tab-btn" onclick="showTab('routine')">Daily routine</button>
+    <button class="tab-btn" onclick="showTab('weekly')">Weekly plan</button>
+    <button class="tab-btn" onclick="showTab('prompts')">Prompt templates</button>
+    <button class="tab-btn" onclick="showTab('30day')">30-day plan</button>
+    <button class="tab-btn" onclick="showTab('mistakes')">Mistakes to avoid</button>
+    <button class="tab-btn" onclick="showTab('next')">Next actions</button>
+  </div>
+
+  <div id="tab-workflow" class="tab-panel active">
+    <div class="section-title">Your personalized Claude workflow</div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-code" aria-hidden="true"></i>Java learning loop</div>
+      <p>Use Claude as your Java tutor. Paste your code → ask "What's wrong and why?" → ask it to show you the industry-standard way → ask for 3 similar practice problems. Never just copy answers.</p>
+    </div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-robot" aria-hidden="true"></i>AI/ML project builder</div>
+      <p>Pick one small AI project per week (sentiment analyzer, image classifier, chatbot). Ask Claude to give you a project roadmap, then guide you step by step. Build → push to GitHub → repeat.</p>
+    </div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-brand-github" aria-hidden="true"></i>GitHub presence engine</div>
+      <p>After every coding session, ask Claude to help you write a good commit message, improve your README, or create a project description that sounds professional to recruiters.</p>
+    </div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-briefcase" aria-hidden="true"></i>Internship prep system</div>
+      <p>Use Claude to practice mock interviews (DSA, HR), review your resume, draft cold emails to recruiters, and explain unfamiliar concepts from job descriptions.</p>
+    </div>
+  </div>
+
+  <div id="tab-routine" class="tab-panel">
+    <div class="section-title">Daily AI learning routine (2–3 hrs)</div>
+    <div class="card" style="padding: 0.75rem 0;">
+      <div class="routine-grid">
+        <div class="time-label" style="padding-left:14px;">Morning<br/>30 min</div>
+        <div class="time-item">DSA problem on LeetCode. Ask Claude to explain the optimal approach after your attempt. Never before.</div>
+        <div class="time-label" style="padding-left:14px;">Midday<br/>60–90 min</div>
+        <div class="time-item">Core skill block — rotate: Java (Mon/Wed/Fri) or AI/ML concept + code (Tue/Thu/Sat). Build, break, ask Claude to explain.</div>
+        <div class="time-label" style="padding-left:14px;">Evening<br/>30–40 min</div>
+        <div class="time-item">Project time. Work on your active GitHub project. Use Claude to unblock you, review code, or improve documentation.</div>
+        <div class="time-label" style="padding-left:14px;">Night<br/>15 min</div>
+        <div class="time-item" style="border-bottom:none;">Career block. One task only: improve resume, find internship listings, draft one cold email, or prep one interview question.</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-weekly" class="tab-panel">
+    <div class="section-title">Weekly improvement plan</div>
+    <div class="week-row"><span class="week-badge">Mon</span><span class="week-text">Java deep dive — OOP, Collections, or Spring concepts. Build one mini feature.</span></div>
+    <div class="week-row"><span class="week-badge">Tue</span><span class="week-text">AI/ML — learn one algorithm conceptually, implement it from scratch in Python.</span></div>
+    <div class="week-row"><span class="week-badge">Wed</span><span class="week-text">DSA + Java — 2 LeetCode problems. Aim for medium difficulty. Ask Claude to review your solution's time complexity.</span></div>
+    <div class="week-row"><span class="week-badge">Thu</span><span class="week-text">Project day — focus only on your active GitHub project. Ship something visible, even if small.</span></div>
+    <div class="week-row"><span class="week-badge">Fri</span><span class="week-text">Communication + career — mock HR interview, LinkedIn profile update, or reach out to one professional on LinkedIn.</span></div>
+    <div class="week-row"><span class="week-badge">Sat</span><span class="week-text">Build something from scratch — no guided tutorials. Just you, Claude, and a blank file. Test your real skill.</span></div>
+    <div class="week-row"><span class="week-badge">Sun</span><span class="week-text">Weekly review — what did you build? What's on GitHub? What do you need to learn next week? Plan in writing.</span></div>
+  </div>
+
+  <div id="tab-prompts" class="tab-panel">
+    <div class="section-title">Prompt templates for you</div>
+    <div class="prompt-box">I'm a B.Tech student learning Java. I wrote this code: [paste code]. Review it like a senior developer would. Point out bugs, bad practices, and show me the better way with explanation.</div>
+    <div class="prompt-box">Explain [AI concept] to me like I'm a CS student who knows basic Python. Give a real-world use case, then show me minimal working code I can run today.</div>
+    <div class="prompt-box">I want to build [project idea]. Give me: 1) a 5-step roadmap, 2) what I'll learn from each step, 3) what to write in the README to impress recruiters.</div>
+    <div class="prompt-box">I have a technical interview for [company/role]. Quiz me on [topic]. After each answer I give, tell me what's correct, what's missing, and what a strong answer looks like.</div>
+    <div class="prompt-box">Here's my resume: [paste]. Rewrite the bullet points for my [project/internship] section to sound impactful for a software engineering internship role. Use action verbs and quantify where possible.</div>
+    <div class="prompt-box">I'm stuck on this GitHub project: [describe problem]. Don't give me the full solution. Give me a hint, then ask me a question that leads me to figure it out myself.</div>
+  </div>
+
+  <div id="tab-30day" class="tab-panel">
+    <div class="section-title">30-day action plan</div>
+    <div class="row">
+      <div>
+        <div class="day-card"><div class="day-num">1–7</div><div class="day-content"><strong>Foundation week</strong><span>Set up GitHub, solve 7 LeetCode easy problems, start one Java mini project, create Claude prompt habit</span></div></div>
+        <div class="day-card"><div class="day-num">8–14</div><div class="day-content"><strong>Build week</strong><span>Start first AI project (sentiment analyzer or weather app with API), push daily to GitHub, write proper READMEs</span></div></div>
+      </div>
+      <div>
+        <div class="day-card"><div class="day-num">15–21</div><div class="day-content"><strong>Confidence week</strong><span>Do 3 mock technical interviews with Claude, apply to 5 internships, start medium LeetCode problems, post progress on LinkedIn</span></div></div>
+        <div class="day-card"><div class="day-num">22–30</div><div class="day-content"><strong>Momentum week</strong><span>Complete and deploy one project, cold email 3 professionals, review all learnings, plan month 2 strategy</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-mistakes" class="tab-panel">
+    <div class="section-title">Mistakes to avoid</div>
+    <div class="mistake"><i class="ti ti-circle-x" aria-hidden="true"></i><span>Copying Claude's code without understanding it — you'll fail interviews. Always ask "explain this line by line" first.</span></div>
+    <div class="mistake"><i class="ti ti-circle-x" aria-hidden="true"></i><span>Learning without building — tutorials feel productive but leave no GitHub trail. Recruiters check your repos.</span></div>
+    <div class="mistake"><i class="ti ti-circle-x" aria-hidden="true"></i><span>Asking vague prompts like "help me learn Java" — be specific. Garbage in, garbage out.</span></div>
+    <div class="mistake"><i class="ti ti-circle-x" aria-hidden="true"></i><span>Skipping the hard parts — if you're always comfortable, you're not growing. Ask Claude for harder problems.</span></div>
+    <div class="mistake"><i class="ti ti-circle-x" aria-hidden="true"></i><span>Waiting until you're "ready" to apply for internships — start applying at day 15. Rejection is data, not failure.</span></div>
+    <div class="mistake"><i class="ti ti-circle-x" aria-hidden="true"></i><span>No documentation — every project needs a README. Use Claude to write it. This is what gets you noticed.</span></div>
+  </div>
+
+  <div id="tab-next" class="tab-panel">
+    <div class="section-title">Your biggest opportunity</div>
+    <div class="opp-card" style="margin-bottom:1rem;">
+      <h3>You're one visible project away from an internship call</h3>
+      <p>Most B.Tech students have the same courses on their resume. What separates those who get internships is a real, documented, deployed project on GitHub. Your 2–3 hrs/day is enough to build that in 30 days if you stay consistent. Use Claude to accelerate the build, not replace the thinking.</p>
+    </div>
+    <div class="section-title">Your next 3 actions — do these today</div>
+    <div class="action-row"><div class="action-num">1</div><div class="action-text">Open GitHub right now and create a repo called <span style="font-family:var(--font-mono); font-size:12px; background:var(--color-background-secondary); padding:1px 6px; border-radius:4px;">java-learning-journey</span> — commit something, anything, today.</div></div>
+    <div class="action-row"><div class="action-num">2</div><div class="action-text">Pick one AI project idea (sentiment analyzer, expense tracker, quiz bot) and paste the "Build project" prompt template into Claude to get your roadmap within the next hour.</div></div>
+    <div class="action-row"><div class="action-num">3</div><div class="action-text">Set a daily 9 PM reminder titled "Claude session" — open it, do the night block (15 min career task). Consistency beats intensity every time.</div></div>
+    <button class="send-btn" onclick="sendPrompt('Give me a detailed 30-day Java + AI learning plan with daily tasks and Claude prompts I should use each day')">Get my full 30-day daily task list ↗</button>
+  </div>
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
